@@ -32,6 +32,9 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "client/dist"),
     emptyOutDir: true,
   },
+  define: {
+    'process.env.PUBLIC_URL': '"/ReadmeGenerator"'
+  },
   server: {
     fs: {
       strict: true,
