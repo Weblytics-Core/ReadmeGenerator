@@ -258,20 +258,12 @@ function generateCreativeTemplate(profile: ReadmeProfile): string {
   // About Me Section
   if (profile.bio) {
     parts.push(`## 🎯 About Me\n`);
-    parts.push(`<div style="
-      background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f9 100%);
-      padding: 1.8rem 2rem;
-      border-radius: 12px;
-      margin: 1.5rem 0;
-      border-left: 4px solid #4f46e5;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    ">\n      <p style="
-        margin: 0;
-        line-height: 1.7;
-        color: #2d3748;
-        font-size: 1.05rem;
-      ">${profile.bio}</p>\n    </div>\n`);
+    parts.push(`<p style="
+      margin: 1.25rem 0;
+      line-height: 1.7;
+      color: #374151;
+      font-size: 1.05rem;
+    ">${profile.bio}</p>\n`);
   }
 
   // Tech Stack Section with Categories
