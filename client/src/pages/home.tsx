@@ -37,8 +37,16 @@ export default function Home() {
     showStats: false,
     showStreak: false,
     showTopLanguages: false,
+    showProfileViews: false,
+    showTrophies: false,
+    showProjects: false,
+    showAskMeAbout: false,
+    showContactInfo: false,
     socialLinks: {},
     customSections: [],
+    projects: [],
+    askMeAbout: [],
+    contactInfo: {}
   });
 
   const [markdown, setMarkdown] = useState("");
@@ -277,6 +285,44 @@ export default function Home() {
                             data-testid="switch-show-languages"
                           />
                         </div>
+
+                        <div className="flex items-center justify-between p-4 bg-muted/30 rounded-md">
+                          <div>
+                            <Label htmlFor="show-profile-views" className="text-sm font-medium">
+                              Show Profile Views
+                            </Label>
+                            <p className="text-xs text-muted-foreground">
+                              Display your GitHub profile view counter
+                            </p>
+                          </div>
+                          <Switch
+                            id="show-profile-views"
+                            checked={profile.showProfileViews}
+                            onCheckedChange={(checked) =>
+                              updateProfile("showProfileViews", checked)
+                            }
+                            data-testid="switch-show-profile-views"
+                          />
+                        </div>
+
+                        <div className="flex items-center justify-between p-4 bg-muted/30 rounded-md">
+                          <div>
+                            <Label htmlFor="show-trophies" className="text-sm font-medium">
+                              Show GitHub Trophies
+                            </Label>
+                            <p className="text-xs text-muted-foreground">
+                              Display your GitHub achievement trophies
+                            </p>
+                          </div>
+                          <Switch
+                            id="show-trophies"
+                            checked={profile.showTrophies}
+                            onCheckedChange={(checked) =>
+                              updateProfile("showTrophies", checked)
+                            }
+                            data-testid="switch-show-trophies"
+                          />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -306,16 +352,178 @@ export default function Home() {
               <Card className="p-8 animate-in fade-in slide-in-from-right-4 duration-300">
                 <div className="space-y-6">
                   <div>
-                    <h2 className="text-2xl font-semibold mb-2">Skills & Technologies</h2>
+                    <h2 className="text-2xl font-semibold mb-2">Skills & Projects</h2>
                     <p className="text-muted-foreground">
-                      Select the technologies you work with
+                      Add your skills and showcase your projects
                     </p>
                   </div>
 
-                  <SkillSelector
-                    selected={profile.skills}
-                    onChange={(skills) => updateProfile("skills", skills)}
-                  />
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-lg font-medium mb-3">Skills & Technologies</h3>
+                      <SkillSelector
+                        selected={profile.skills}
+                        onChange={(skills) => updateProfile("skills", skills)}
+                      />
+                    </div>
+
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-lg font-medium">Projects</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Showcase your best work
+                          </p>
+                        </div>
+                        <Switch
+                          checked={profile.showProjects}
+                          onCheckedChange={(checked) =>
+                            updateProfile("showProjects", checked)
+                          }
+                        />
+                      </div>
+                      
+                      {profile.showProjects && (
+                        <div className="space-y-4 pl-4 border-l-2 border-muted">
+                          <div className="space-y-2">
+                            <Label>Project 1</Label>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <Input 
+                                placeholder="Project name" 
+                                className="text-base"
+                              />
+                              <Input 
+                                placeholder="Project URL (optional)" 
+                                type="url" 
+                                className="text-base"
+                              />
+                            </div>
+                            <Textarea 
+                              placeholder="Project description" 
+                              rows={3} 
+                              className="text-base resize-none"
+                            />
+                            <div>
+                              <Label className="text-sm text-muted-foreground">
+                                Tags (comma separated)
+                              </Label>
+                              <Input 
+                                placeholder="react, typescript, node" 
+                                className="text-base mt-1"
+                              />
+                            </div>
+                          </div>
+                          <Button variant="outline" size="sm" className="mt-2">
+                            Add Another Project
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="space-y-4 pt-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-lg font-medium">Ask Me About</h3>
+                          <p className="text-sm text-muted-foreground">
+                            Topics you're knowledgeable about
+                          </p>
+                        </div>
+                        <Switch
+                          checked={profile.showAskMeAbout}
+                          onCheckedChange={(checked) =>
+                            updateProfile("showAskMeAbout", checked)
+                          }
+                        />
+                      </div>
+                      
+                      {profile.showAskMeAbout && (
+                        <div className="space-y-2 pl-4">
+                          <Textarea 
+                            placeholder="Web Development, Open Source, Tech in general..." 
+                            rows={3} 
+                            className="text-base resize-none"
+                            value={profile.askMeAbout?.join("\n") || ""}
+                            onChange={(e) => {
+                              const topics = e.target.value.split("\n").filter(Boolean);
+                              updateProfile("askMeAbout", topics);
+                            }}
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            Enter one topic per line
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="space-y-4 pt-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-lg font-medium">Contact Information</h3>
+                          <p className="text-sm text-muted-foreground">
+                            How people can reach you
+                          </p>
+                        </div>
+                        <Switch
+                          checked={profile.showContactInfo}
+                          onCheckedChange={(checked) =>
+                            updateProfile("showContactInfo", checked)
+                          }
+                        />
+                      </div>
+                      
+                      {profile.showContactInfo && (
+                        <div className="space-y-4 pl-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label>Email</Label>
+                              <Input 
+                                type="email" 
+                                placeholder="your.email@example.com"
+                                value={profile.contactInfo?.email || ""}
+                                onChange={(e) => 
+                                  updateProfile("contactInfo", {
+                                    ...profile.contactInfo,
+                                    email: e.target.value
+                                  })
+                                }
+                                className="text-base"
+                              />
+                            </div>
+                            <div className="space-y-2">
+                              <Label>Website</Label>
+                              <Input 
+                                type="url" 
+                                placeholder="https://yourwebsite.com"
+                                value={profile.contactInfo?.website || ""}
+                                onChange={(e) => 
+                                  updateProfile("contactInfo", {
+                                    ...profile.contactInfo,
+                                    website: e.target.value
+                                  })
+                                }
+                                className="text-base"
+                              />
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <Label>Blog</Label>
+                            <Input 
+                              type="url" 
+                              placeholder="https://blog.yourwebsite.com"
+                              value={profile.contactInfo?.blog || ""}
+                              onChange={(e) => 
+                                updateProfile("contactInfo", {
+                                  ...profile.contactInfo,
+                                  blog: e.target.value
+                                })
+                              }
+                              className="text-base"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </Card>
             )}

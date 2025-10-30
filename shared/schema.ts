@@ -14,6 +14,11 @@ export const readmeProfileSchema = z.object({
   showStats: z.boolean().default(false),
   showStreak: z.boolean().default(false),
   showTopLanguages: z.boolean().default(false),
+  showProfileViews: z.boolean().default(false),
+  showTrophies: z.boolean().default(false),
+  showProjects: z.boolean().default(false),
+  showAskMeAbout: z.boolean().default(false),
+  showContactInfo: z.boolean().default(false),
   
   socialLinks: z.object({
     github: z.string().optional(),
@@ -28,6 +33,21 @@ export const readmeProfileSchema = z.object({
     title: z.string(),
     content: z.string(),
   })).default([]),
+  
+  projects: z.array(z.object({
+    name: z.string(),
+    description: z.string(),
+    url: z.string().url().optional(),
+    tags: z.array(z.string()).default([])
+  })).default([]),
+  
+  askMeAbout: z.array(z.string()).default([]),
+  
+  contactInfo: z.object({
+    email: z.string().email().optional(),
+    website: z.string().url().optional(),
+    blog: z.string().url().optional()
+  }).optional(),
 });
 
 export type ReadmeProfile = z.infer<typeof readmeProfileSchema>;
